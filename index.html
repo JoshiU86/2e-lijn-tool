@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Dusseldorp | 2e lijn assistent</title>
+<style>
+    :root {
+        --dusseldorp-blue: #1c69d4;
+        --dusseldorp-dark: #262626;
+        --dusseldorp-grey: #666666;
+        --bg-light: #f4f7f9;
+        --white: #ffffff;
+        --success: #28a745;
+        --danger: #dc3545;
+        --border-color: #e0e4e8;
+        --text-main: #262626;
+        --input-bg: #ffffff;
+    }
+
+    body.dark-mode {
+        --bg-light: #121212;
+        --white: #1e1e1e;
+        --dusseldorp-dark: #f4f7f9;
+        --dusseldorp-grey: #b0b0b0;
+        --border-color: #333333;
+        --text-main: #e0e0e0;
+        --input-bg: #252525;
+        --success: #34d399;
+        --danger: #f87171;
+    }
+
+    body { 
+        font-family: "BMWTypeNext", "Segoe UI", Roboto, Arial, sans-serif; 
+        margin:0; 
+        background: var(--bg-light); 
+        font-size: 12px; 
+        color: var(--text-main); 
+        -webkit-font-smoothing: antialiased;
+        transition: background 0.3s ease, color 0.3s ease;
+        overflow: hidden;
+    }
+
+    .wrapper { display:flex; height:100vh; width: 100vw; overflow: hidden; }
+
+    .left { 
+        width: 30%; 
+        padding: 30px; 
+        background: var(--white); 
+        overflow-y: auto; 
+        box-shadow: 5px 0 20px rgba(0,0,0,0.02); 
+        z-index: 3;
+        border-right: 1px solid var(--border-color);
+    }
+
+    .middle { 
+        width: 35%; 
+        padding: 30px; 
+        background: var(--bg-light); 
+        overflow-y: auto; 
+        z-index: 2;
+        border-right: 1px solid var(--border-color);
+    }
+
+    .right { 
+        width: 35%; 
+        padding: 30px; 
+        background: var(--white); 
+        display: flex; 
+        flex-direction: column;
+        z-index: 1;
+        transition: box-shadow 0.4s ease, background 0.4s ease;
+    }
+
+    /* Visuele feedback: de groene glow */
+    .right.copied-flash {
+        background: rgba(40, 167, 69, 0.05);
+        box-shadow: inset 0 0 30px rgba(40, 167, 69, 0.15);
+    }
+
+    .theme-toggle {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: var(--bg-light);
+        border: 1px solid var(--border-color);
+        color: var(--dusseldorp-grey);
+        padding: 5px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        z-index: 10;
+    }
+
+    .logo-container { margin-bottom: 25px; text-align: center; }
+    .logo-container img { height: 35px; width: auto; transition: filter 0.3s; }
+    body.dark-mode .logo-container img { filter: brightness(0) invert(1); }
+
+    .section-title { 
+        font-weight: 700; 
+        margin: 15px 0 10px 0; 
+        display: block; 
+        color: var(--dusseldorp-grey); 
+        text-transform: uppercase; 
+        font-size: 10px; 
+        letter-spacing: 1px; 
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .full { grid-column: span 2; }
+
+    .option { 
+        display: flex; 
+        align-items: center; 
+        padding: 10px; 
+        background: var(--input-bg); 
+        border: 1px solid var(--border-color); 
+        border-radius: 6px; 
+        cursor: pointer; 
+        font-size: 11px;
+        transition: opacity 0.2s, transform 0.1s;
+    }
+    
+    .option input { margin-right: 10px; }
+    .opt-onderhoud { border-left: 3px solid var(--dusseldorp-blue); }
+    .opt-verplicht { border-left: 3px solid #e6a23c; }
+
+    /* Schonere interface: velden volledig verbergen */
+    .hidden { display: none !important; }
+
+    select { 
+        width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); 
+        background: var(--input-bg); color: var(--text-main); font-size: 12px; outline: none;
+    }
+
+    .block { padding: 15px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .block b { display: block; margin-bottom: 8px; text-transform: uppercase; font-size: 10px; }
+    
+    .green { background: rgba(40, 167, 69, 0.08); color: var(--success); border: 1px solid rgba(40, 167, 69, 0.2); border-left: 4px solid var(--success); }
+    .red { background: rgba(220, 53, 69, 0.08); color: var(--danger); border: 1px solid rgba(220, 53, 69, 0.2); border-left: 4px solid var(--danger); }
+
+    .list-item { margin: 5px 0; display: flex; line-height: 1.4; }
+    .list-item:before { content: "→"; margin-right: 8px; font-weight: bold; }
+
+    #klantbericht { 
+        flex-grow: 1; 
+        width: 100%; 
+        border: 1px solid var(--border-color); 
+        border-radius: 8px; 
+        padding: 15px; 
+        font-family: inherit; 
+        font-size: 12px; 
+        resize: none; 
+        line-height: 1.5; 
+        background: var(--input-bg); 
+        color: var(--text-main); 
+        outline: none;
+    }
+
+    .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 10px; padding: 12px; border:none; border-radius:6px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; transition: background 0.2s;}
+    .btn-copy:hover { background: #1656b0; }
+    .btn-reset { background: transparent; color: var(--dusseldorp-grey); margin-top: 20px; width: 100%; border: 1px solid var(--border-color); padding: 8px; cursor:pointer; border-radius:6px;}
+
+    #copyStatus { height: 20px; margin-top: 5px; text-align: center; color: var(--success); font-size: 11px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="left">
+        <button class="theme-toggle" onclick="toggleTheme()">Modus</button>
+        <div class="logo-container">
+            <img src="dusseldorp-bmw-dark.webp" alt="Logo">
+        </div>
+        
+        <span class="section-title">1. Locatie & Aanvraag</span>
+        <div class="grid-2">
+            <div class="full">
+                <select id="vestiging">
+                    <option value="Apeldoorn">Apeldoorn</option><option value="Zwolle">Zwolle</option><option value="Deventer">Deventer</option>
+                    <option value="Alkmaar">Alkmaar</option><option value="Hoorn">Hoorn</option><option value="Oostzaan">Oostzaan</option>
+                    <option value="Den Haag">Den Haag</option><option value="Schiedam">Schiedam</option><option value="Wateringen">Wateringen</option>
+                    <option value="Brielle">Brielle</option><option value="Rotterdam">Rotterdam</option>
+                </select>
+            </div>
+            <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
+            <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
+            <label class="option"><input type="radio" name="bron" value="kcc"> KCC Portal</label>
+            <label class="option"><input type="radio" name="bron" value="overig"> Overige Bron</label>
+        </div>
+
+        <span class="section-title">2. Voertuigtype</span>
+        <div class="grid-2">
+            <label class="option"><input type="radio" name="voertuig" value="brandstof"> Brandstof</label>
+            <label class="option"><input type="radio" name="voertuig" value="ev"> Elektrisch (EV)</label>
+        </div>
+
+        <span class="section-title">3. Factoren</span>
+        <label class="option" style="border: 1px dashed var(--danger); color: var(--danger); margin-bottom:10px;"><input type="checkbox" id="geenOnderhoud"> GEEN ONDERHOUD</label>
+        
+        <div class="grid-2">
+            <label class="option opt-verplicht"><input type="checkbox" id="bsi"> BSI Actief</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="diagnose"> Diagnose</label>
+            <label class="option opt-onderhoud" id="olieOptie"><input type="checkbox" id="olie" class="onderhoud-input"> Motorolie</label>
+            <label class="option opt-onderhoud" id="remOptie"><input type="checkbox" id="rem" class="onderhoud-input"> Remvloeistof</label>
+            <label class="option opt-onderhoud" id="voertuigcheckOptie"><input type="checkbox" id="voertuigcheck" class="onderhoud-input"> Voertuigcheck</label>
+            <label class="option opt-onderhoud" id="transmissieOptie"><input type="checkbox" id="transmissieolie" class="onderhoud-input"> Transmissievloeistof</label>
+        </div>
+
+        <button onclick="resetForm()" class="btn-reset">Reset Sessie</button>
+    </div>
+
+    <div class="middle">
+        <span class="section-title">Advies & Werkorder</span>
+        <div id="resultaat"></div>
+    </div>
+
+    <div class="right" id="rightCol">
+        <span class="section-title">Concept Klantbericht</span>
+        <textarea id="klantbericht" readonly placeholder="Selecteer eerst de factoren links..."></textarea>
+        <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn">Kopieer Bericht</button>
+        <div id="copyStatus"></div>
+    </div>
+</div>
+
+<script>
+// TEMPLATES (Inclusief correcties: for -> voor, ivm -> i.v.m.)
+const BERICHTEN = {
+    aanhef: "Geachte heer/mevrouw,\n\n",
+    lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren en, indien u akkoord bent, deze vast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk 2 dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken kunnen we mogelijk niet direct behandelen i.v.m. de planning.",
+    standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke en door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
+    evOfBeide: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
+    alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
+    alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder en frisser klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
+    afsluiting: (vestiging) => `\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`
+};
+
+// STORAGE INITIALISATIE
+if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+if (localStorage.getItem('vestiging')) document.getElementById('vestiging').value = localStorage.getItem('vestiging');
+
+function toggleTheme() { 
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+// EV LOGICA & FACTORS
+document.getElementById('geenOnderhoud').addEventListener('change', function() {
+    let voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
+    if (this.checked) {
+        document.querySelectorAll('.onderhoud-input').forEach(el => el.checked = false);
+        document.getElementById('bsi').checked = false;
+    } else {
+        if(voertuigRadio && voertuigRadio.value === 'ev') {
+            if(!document.getElementById('voertuigcheck').dataset.manual) document.getElementById('voertuigcheck').checked = true;
+            if(!document.getElementById('rem').dataset.manual) document.getElementById('rem').checked = true;
+        }
+    }
+    bereken();
+});
+
+document.querySelectorAll('.onderhoud-input').forEach(el => {
+    el.addEventListener('change', function() {
+        if (this.checked) document.getElementById('geenOnderhoud').checked = false;
+        bereken();
+    });
+});
+
+document.querySelectorAll('input').forEach(el => {
+    if (!el.classList.contains('onderhoud-input') && el.id !== 'geenOnderhoud') el.addEventListener('change', bereken);
+});
+
+document.getElementById('vestiging').addEventListener('change', function() {
+    localStorage.setItem('vestiging', this.value);
+    bereken();
+});
+
+function kopieerBericht() {
+    const tekst = document.getElementById('klantbericht');
+    const rightCol = document.getElementById('rightCol');
+    if(!tekst.value) return;
+    tekst.select();
+    document.execCommand('copy');
+    
+    // VISUELE FEEDBACK: GROENE GLOW
+    document.getElementById('copyStatus').textContent = "✔ GEKOPIEERD NAAR KLEMBORD";
+    rightCol.classList.add('copied-flash');
+    setTimeout(() => {
+        document.getElementById('copyStatus').textContent = "";
+        rightCol.classList.remove('copied-flash');
+    }, 1200);
+}
+
+function bereken() {
+    let klantRadio = document.querySelector('input[name="klant"]:checked');
+    let voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
+    let bronRadio = document.querySelector('input[name="bron"]:checked');
+    let vestiging = document.getElementById('vestiging').value;
+
+    if (!klantRadio || !voertuigRadio || !bronRadio) return;
+
+    let klant = klantRadio.value;
+    let voertuig = voertuigRadio.value;
+    let bron = bronRadio.value;
+    let geenOnderhoud = document.getElementById('geenOnderhoud').checked;
+    let bsi = document.getElementById('bsi').checked;
+    let apk = document.getElementById('apk').checked;
+    let voertuigcheck = document.getElementById('voertuigcheck').checked;
+    let olie = document.getElementById('olie').checked;
+    let rem = document.getElementById('rem').checked;
+    let transmissie = document.getElementById('transmissieolie').checked;
+    let tra = document.getElementById('tra').checked;
+    let diagnose = document.getElementById('diagnose').checked;
+
+    // SCHONERE INTERFACE: Verberg Motorolie & Transmissie bij EV
+    ['olieOptie','transmissieOptie'].forEach(id => {
+        const wrapper = document.getElementById(id);
+        if (voertuig === 'ev') wrapper.classList.add('hidden');
+        else wrapper.classList.remove('hidden');
+    });
+
+    if (voertuig === 'ev' && !geenOnderhoud) {
+        if(!document.getElementById('voertuigcheck').dataset.manual) voertuigcheck = true;
+        if(!document.getElementById('rem').dataset.manual) rem = true;
+    }
+
+    let heeftOnderhoud = olie || rem || voertuigcheck;
+    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie) && !heeftOnderhoud);
+
+    let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
+    
+    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
+    if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
+    if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
+
+    if (klant === 'lease') { 
+        nietDoen.add("12 punten check uitvoeren (niet toegestaan bij lease)"); 
+        nietDoen.add("Upsell aanbieden"); 
+    }
+    
+    if (klant === 'particulier') {
+        if (bron !== 'kcc' && heeftOnderhoud && !alleenTraOfApk) doen.push("Upsell aanbieden");
+        else if (bron === 'kcc') nietDoen.add("Upsell aanbieden");
+        if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12 punten check uitvoeren");
+    }
+
+    if (!alleenTraOfApk && !bsi) { 
+        if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan motorolie"); 
+        if (rem) doen.push("H114 toevoegen aan remvloeistof"); 
+    }
+
+    if (voertuig === 'brandstof' && olie) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
+    if (voertuig === 'ev' && heeftOnderhoud) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
+    if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren");
+
+    if (bsi) { 
+        if (klant !== 'lease') nietDoen.add("12 punten check uitvoeren (niet i.c.m. BSI)"); 
+        if (olie && voertuig !== 'ev') nietDoen.add("H111 toevoegen (niet i.c.m. BSI)"); 
+        if (rem) nietDoen.add("H114 toevoegen (niet i.c.m. BSI)"); 
+        doen.push("In menu B zetten i.v.m. BSI contract"); 
+    }
+
+    let resHtml = "";
+    if (doen.length) { resHtml += `<div class="block green"><b>✔ Wel doen:</b>`; doen.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
+    if (traBlok.length) { resHtml += `<div class="block green"><b>✔ TRA:</b>`; traBlok.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
+    if (transmissieBlok.length) { resHtml += `<div class="block green"><b>✔ Transmissievloeistof vervangen:</b>`; transmissieBlok.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
+    if (nietDoen.size && !alleenTraOfApk) { resHtml += `<div class="block red"><b>✖ Niet doen:</b>`; Array.from(nietDoen).forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
+    document.getElementById('resultaat').innerHTML = resHtml;
+
+    let finalBody = "";
+    if (klant === 'lease') finalBody = BERICHTEN.lease;
+    else if (bron === 'kcc' || alleenTraOfApk) finalBody = BERICHTEN.standaard;
+    else if (voertuig === 'ev' || (olie && rem)) finalBody = BERICHTEN.evOfBeide;
+    else if (rem && !olie) finalBody = BERICHTEN.alleenRem;
+    else if (olie && !rem) finalBody = BERICHTEN.alleenOlie;
+
+    document.getElementById('klantbericht').value = BERICHTEN.aanhef + finalBody + BERICHTEN.afsluiting(vestiging);
+}
+
+function resetForm() { 
+    document.querySelectorAll('input').forEach(el => { el.checked = false; el.disabled = false; delete el.dataset.manual; }); 
+    document.getElementById('resultaat').innerHTML = ""; 
+    document.getElementById('klantbericht').value = ""; 
+}
+document.getElementById('voertuigcheck').addEventListener('click', function() { this.dataset.manual = true; });
+document.getElementById('rem').addEventListener('click', function() { this.dataset.manual = true; });
+</script>
+</body>
+</html>

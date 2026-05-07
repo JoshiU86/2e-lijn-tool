@@ -71,7 +71,6 @@
         transition: box-shadow 0.4s ease, background 0.4s ease;
     }
 
-    /* Visuele feedback: de groene glow */
     .right.copied-flash {
         background: rgba(40, 167, 69, 0.05);
         box-shadow: inset 0 0 30px rgba(40, 167, 69, 0.15);
@@ -107,6 +106,14 @@
         letter-spacing: 1px; 
     }
 
+    .sub-label {
+        font-size: 9px;
+        font-weight: 600;
+        color: var(--dusseldorp-grey);
+        margin: 10px 0 5px 0;
+        display: block;
+    }
+
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .full { grid-column: span 2; }
 
@@ -126,7 +133,6 @@
     .opt-onderhoud { border-left: 3px solid var(--dusseldorp-blue); }
     .opt-verplicht { border-left: 3px solid #e6a23c; }
 
-    /* Schonere interface: velden volledig verbergen */
     .hidden { display: none !important; }
 
     select { 
@@ -177,17 +183,23 @@
         </div>
         
         <span class="section-title">1. Locatie & Aanvraag</span>
+        <div class="full" style="margin-bottom: 10px;">
+            <select id="vestiging">
+                <option value="Apeldoorn">Apeldoorn</option><option value="Zwolle">Zwolle</option><option value="Deventer">Deventer</option>
+                <option value="Alkmaar">Alkmaar</option><option value="Hoorn">Hoorn</option><option value="Oostzaan">Oostzaan</option>
+                <option value="Den Haag">Den Haag</option><option value="Schiedam">Schiedam</option><option value="Wateringen">Wateringen</option>
+                <option value="Brielle">Brielle</option><option value="Rotterdam">Rotterdam</option>
+            </select>
+        </div>
+
+        <span class="sub-label">KLANTTYPE</span>
         <div class="grid-2">
-            <div class="full">
-                <select id="vestiging">
-                    <option value="Apeldoorn">Apeldoorn</option><option value="Zwolle">Zwolle</option><option value="Deventer">Deventer</option>
-                    <option value="Alkmaar">Alkmaar</option><option value="Hoorn">Hoorn</option><option value="Oostzaan">Oostzaan</option>
-                    <option value="Den Haag">Den Haag</option><option value="Schiedam">Schiedam</option><option value="Wateringen">Wateringen</option>
-                    <option value="Brielle">Brielle</option><option value="Rotterdam">Rotterdam</option>
-                </select>
-            </div>
             <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
+        </div>
+
+        <span class="sub-label">BRON AANVRAAG</span>
+        <div class="grid-2">
             <label class="option"><input type="radio" name="bron" value="kcc"> KCC Portal</label>
             <label class="option"><input type="radio" name="bron" value="overig"> Overige Bron</label>
         </div>
@@ -199,17 +211,23 @@
         </div>
 
         <span class="section-title">3. Factoren</span>
-        <label class="option" style="border: 1px dashed var(--danger); color: var(--danger); margin-bottom:10px;"><input type="checkbox" id="geenOnderhoud"> GEEN ONDERHOUD</label>
         
+        <span class="sub-label">ONDERHOUD</span>
+        <label class="option" style="border: 1px dashed var(--danger); color: var(--danger); margin-bottom:8px;"><input type="checkbox" id="geenOnderhoud"> GEEN ONDERHOUD</label>
         <div class="grid-2">
-            <label class="option opt-verplicht"><input type="checkbox" id="bsi"> BSI Actief</label>
-            <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
-            <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
-            <label class="option opt-verplicht"><input type="checkbox" id="diagnose"> Diagnose</label>
             <label class="option opt-onderhoud" id="olieOptie"><input type="checkbox" id="olie" class="onderhoud-input"> Motorolie</label>
             <label class="option opt-onderhoud" id="remOptie"><input type="checkbox" id="rem" class="onderhoud-input"> Remvloeistof</label>
             <label class="option opt-onderhoud" id="voertuigcheckOptie"><input type="checkbox" id="voertuigcheck" class="onderhoud-input"> Voertuigcheck</label>
             <label class="option opt-onderhoud" id="transmissieOptie"><input type="checkbox" id="transmissieolie" class="onderhoud-input"> Transmissievloeistof</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="bsi"> BSI Actief</label>
+        </div>
+
+        <span class="sub-label" style="margin-top: 15px;">OVERIGE ZAKEN</span>
+        <div class="grid-2">
+            <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="diagnose"> Diagnose</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="eindeGarantie"> Einde garantiecontrole</label>
         </div>
 
         <button onclick="resetForm()" class="btn-reset">Reset Sessie</button>
@@ -229,18 +247,16 @@
 </div>
 
 <script>
-// TEMPLATES (Inclusief correcties: for -> voor, ivm -> i.v.m.)
 const BERICHTEN = {
     aanhef: "Geachte heer/mevrouw,\n\n",
     lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren en, indien u akkoord bent, deze vast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk 2 dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken kunnen we mogelijk niet direct behandelen i.v.m. de planning.",
     standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke en door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
-    evOfBeide: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
+    evOfBeide: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt for een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
     alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
     alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder en frisser klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
     afsluiting: (vestiging) => `\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`
 };
 
-// STORAGE INITIALISATIE
 if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
 if (localStorage.getItem('vestiging')) document.getElementById('vestiging').value = localStorage.getItem('vestiging');
 
@@ -249,7 +265,6 @@ function toggleTheme() {
     localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
 }
 
-// EV LOGICA & FACTORS
 document.getElementById('geenOnderhoud').addEventListener('change', function() {
     let voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
     if (this.checked) {
@@ -287,7 +302,6 @@ function kopieerBericht() {
     tekst.select();
     document.execCommand('copy');
     
-    // VISUELE FEEDBACK: GROENE GLOW
     document.getElementById('copyStatus').textContent = "✔ GEKOPIEERD NAAR KLEMBORD";
     rightCol.classList.add('copied-flash');
     setTimeout(() => {
@@ -316,8 +330,8 @@ function bereken() {
     let transmissie = document.getElementById('transmissieolie').checked;
     let tra = document.getElementById('tra').checked;
     let diagnose = document.getElementById('diagnose').checked;
+    let eindeGarantie = document.getElementById('eindeGarantie').checked;
 
-    // SCHONERE INTERFACE: Verberg Motorolie & Transmissie bij EV
     ['olieOptie','transmissieOptie'].forEach(id => {
         const wrapper = document.getElementById(id);
         if (voertuig === 'ev') wrapper.classList.add('hidden');
@@ -330,13 +344,22 @@ function bereken() {
     }
 
     let heeftOnderhoud = olie || rem || voertuigcheck;
-    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie) && !heeftOnderhoud);
+    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie || eindeGarantie) && !heeftOnderhoud);
 
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
-    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
+    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. the actie"); }
     if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
+    
+    // NIEUWE COMPLEXE LOGICA EINDE GARANTIE CONTROLE
+    if (eindeGarantie) { 
+        if (klant === 'lease') {
+            nietDoen.add("Einde garantie controle NIET bij een lease auto");
+        } else {
+            doen.push("Einde garantie regel in menu W zetten");
+        }
+    }
 
     if (klant === 'lease') { 
         nietDoen.add("12 punten check uitvoeren (niet toegestaan bij lease)"); 

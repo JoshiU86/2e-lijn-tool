@@ -371,10 +371,6 @@ function bereken() {
         if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12 punten check uitvoeren");
     }
 
-    if (olie && voertuig !== 'ev') {
-        doen.push("Controleer Olietype OSLX");
-    }
-
     if (!alleenTraOfApk && !bsi) { 
         if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan motorolie"); 
         if (rem) doen.push("H114 toevoegen aan remvloeistof"); 

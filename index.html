@@ -198,10 +198,12 @@
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
         </div>
 
-        <span class="sub-label">BRON AANVRAAG</span>
-        <div class="grid-2">
-            <label class="option"><input type="radio" name="bron" value="kcc"> KCC Portal</label>
-            <label class="option"><input type="radio" name="bron" value="overig"> Overige Bron</label>
+        <div id="upsellWrapper" class="hidden">
+            <span class="sub-label">UPSELL STATUS</span>
+            <div class="grid-2">
+                <label class="option"><input type="radio" name="upsellStatus" value="besproken"> Reeds besproken/op order</label>
+                <label class="option"><input type="radio" name="upsellStatus" value="aanbieden"> Nog aanbieden</label>
+            </div>
         </div>
 
         <span class="section-title">2. Voertuigtype</span>
@@ -313,14 +315,29 @@ function kopieerBericht() {
 function bereken() {
     let klantRadio = document.querySelector('input[name="klant"]:checked');
     let voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
-    let bronRadio = document.querySelector('input[name="bron"]:checked');
     let vestiging = document.getElementById('vestiging').value;
+    
+    let upsellWrapper = document.getElementById('upsellWrapper');
 
-    if (!klantRadio || !voertuigRadio || !bronRadio) return;
+    // Toon de upsell status opties alleen wanneer particulier is geselecteerd
+    if (klantRadio && klantRadio.value === 'particulier') {
+        upsellWrapper.classList.remove('hidden');
+    } else {
+        upsellWrapper.classList.add('hidden');
+        // Reset upsell status als er gewisseld wordt naar lease
+        document.querySelectorAll('input[name="upsellStatus"]').forEach(el => el.checked = false);
+    }
+
+    let upsellRadio = document.querySelector('input[name="upsellStatus"]:checked');
+
+    // Wacht met berekenen totdat de essentiële velden zijn ingevuld
+    if (!klantRadio || !voertuigRadio) return;
+    // Als particulier is gekozen, moet er een upsell status bekend zijn
+    if (klantRadio.value === 'particulier' && !upsellRadio) return;
 
     let klant = klantRadio.value;
     let voertuig = voertuigRadio.value;
-    let bron = bronRadio.value;
+    let upsellStatus = upsellRadio ? upsellRadio.value : null;
     let geenOnderhoud = document.getElementById('geenOnderhoud').checked;
     let bsi = document.getElementById('bsi').checked;
     let apk = document.getElementById('apk').checked;
@@ -366,9 +383,14 @@ function bereken() {
     }
     
     if (klant === 'particulier') {
-        if (bron !== 'kcc' && heeftOnderhoud && !alleenTraOfApk) doen.push("Upsell aanbieden");
-        else if (bron === 'kcc') nietDoen.add("Upsell aanbieden");
+        if (upsellStatus === 'aanbieden' && heeftOnderhoud && !alleenTraOfApk) doen.push("Upsell aanbieden");
+        else if (upsellStatus === 'besproken') nietDoen.add("Upsell aanbieden");
+        
         if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12 punten check uitvoeren");
+    }
+
+    if (olie && voertuig !== 'ev') {
+        doen.push("Controleer Olietype OSLX");
     }
 
     if (!alleenTraOfApk && !bsi) { 
@@ -396,7 +418,7 @@ function bereken() {
 
     let finalBody = "";
     if (klant === 'lease') finalBody = BERICHTEN.lease;
-    else if (bron === 'kcc' || alleenTraOfApk) finalBody = BERICHTEN.standaard;
+    else if (upsellStatus === 'besproken' || alleenTraOfApk) finalBody = BERICHTEN.standaard;
     else if (voertuig === 'ev' || (olie && rem)) finalBody = BERICHTEN.evOfBeide;
     else if (rem && !olie) finalBody = BERICHTEN.alleenRem;
     else if (olie && !rem) finalBody = BERICHTEN.alleenOlie;
@@ -407,7 +429,8 @@ function bereken() {
 function resetForm() { 
     document.querySelectorAll('input').forEach(el => { el.checked = false; el.disabled = false; delete el.dataset.manual; }); 
     document.getElementById('resultaat').innerHTML = ""; 
-    document.getElementById('klantbericht').value = ""; 
+    document.getElementById('klantbericht').value = "";
+    document.getElementById('upsellWrapper').classList.add('hidden');
 }
 document.getElementById('voertuigcheck').addEventListener('click', function() { this.dataset.manual = true; });
 document.getElementById('rem').addEventListener('click', function() { this.dataset.manual = true; });

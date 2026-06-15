@@ -197,6 +197,7 @@
             <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
         </div>
+        <div style="font-size: 10px; font-weight: bold; margin-top: 6px; letter-spacing: 0.3px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
 
         <div id="upsellWrapper" class="hidden">
             <span class="sub-label">UPSELL STATUS</span>
@@ -229,7 +230,6 @@
             <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
             <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
             <label class="option opt-verplicht"><input type="checkbox" id="diagnose"> Diagnose</label>
-            <label class="option opt-verplicht"><input type="checkbox" id="eindeGarantie"> Einde garantiecontrole</label>
         </div>
 
         <button onclick="resetForm()" class="btn-reset">Reset Sessie</button>
@@ -347,7 +347,6 @@ function bereken() {
     let transmissie = document.getElementById('transmissieolie').checked;
     let tra = document.getElementById('tra').checked;
     let diagnose = document.getElementById('diagnose').checked;
-    let eindeGarantie = document.getElementById('eindeGarantie').checked;
 
     ['olieOptie','transmissieOptie'].forEach(id => {
         const wrapper = document.getElementById(id);
@@ -361,21 +360,13 @@ function bereken() {
     }
 
     let heeftOnderhoud = olie || rem || voertuigcheck;
-    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie || eindeGarantie) && !heeftOnderhoud);
+    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie) && !heeftOnderhoud);
 
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
     if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
     if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
-    
-    if (eindeGarantie) { 
-        if (klant === 'lease') {
-            nietDoen.add("Einde garantie controle NIET bij een lease auto");
-        } else {
-            doen.push("Einde garantie regel in menu W zetten");
-        }
-    }
 
     if (klant === 'lease') { 
         nietDoen.add("12 punten check uitvoeren (niet toegestaan bij lease)"); 

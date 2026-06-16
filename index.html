@@ -10,8 +10,8 @@
         --dusseldorp-grey: #666666;
         --bg-light: #f4f6f8;
         --white: #ffffff;
-        --success: #10b981; /* Iets modernere, zachtere groen */
-        --danger: #ef4444; /* Iets modernere, zachtere rood */
+        --success: #10b981;
+        --danger: #ef4444;
         --border-color: #e5e7eb;
         --text-main: #262626;
         --input-bg: #ffffff;
@@ -125,7 +125,6 @@
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .full { grid-column: span 2; }
 
-    /* Moderne en strakkere opties */
     .option { 
         display: flex; 
         align-items: center; 
@@ -143,7 +142,6 @@
         border-color: #cbd5e1;
     }
 
-    /* Dusseldorp kleuren voor checkboxes en radio buttons */
     input[type="radio"], input[type="checkbox"] { 
         margin-right: 10px; 
         accent-color: var(--dusseldorp-blue);
@@ -166,7 +164,6 @@
         box-shadow: 0 0 0 2px rgba(28, 105, 212, 0.1);
     }
 
-    /* Resultaat blokken gestyled als 'Clean Cards' */
     .block { 
         padding: 15px; 
         border-radius: 6px; 
@@ -220,7 +217,6 @@
 
     #copyStatus { height: 20px; margin-top: 8px; text-align: center; color: var(--success); font-size: 10px; font-weight: bold; letter-spacing: 0.5px; }
 
-    /* Checklist Styling */
     .checklist-wrapper {
         margin-top: auto;
         padding-top: 15px;
@@ -306,6 +302,7 @@
             <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
             <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
             <label class="option opt-verplicht"><input type="checkbox" id="diagnose"> Diagnose</label>
+            <label class="option opt-verplicht"><input type="checkbox" id="eindeGarantie"> Einde garantie controle</label>
         </div>
 
         <button onclick="resetForm()" class="btn-reset">Reset Sessie</button>
@@ -345,11 +342,11 @@
 <script>
 const BERICHTEN = {
     aanhef: "Geachte heer/mevrouw,\n\n",
-    lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren en, indien u akkoord bent, deze vast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk 2 dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken kunnen we mogelijk niet direct behandelen i.v.m. de planning.",
+    lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren i.v.m. de planning.",
     standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke en door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     evOfBeide: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
     alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
-    alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder en frisser klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
+    alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder climate in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen. ",
     afsluiting: (vestiging) => `\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`
 };
 
@@ -412,8 +409,9 @@ function bereken() {
     let vestiging = document.getElementById('vestiging').value;
     
     let upsellWrapper = document.getElementById('upsellWrapper');
+    let geenOnderhoud = document.getElementById('geenOnderhoud').checked;
 
-    if (klantRadio && klantRadio.value === 'particulier') {
+    if (klantRadio && klantRadio.value === 'particulier' && !geenOnderhoud) {
         upsellWrapper.classList.remove('hidden');
     } else {
         upsellWrapper.classList.add('hidden');
@@ -423,12 +421,11 @@ function bereken() {
     let upsellRadio = document.querySelector('input[name="upsellStatus"]:checked');
 
     if (!klantRadio || !voertuigRadio) return;
-    if (klantRadio.value === 'particulier' && !upsellRadio) return;
+    if (klantRadio.value === 'particulier' && !geenOnderhoud && !upsellRadio) return;
 
     let klant = klantRadio.value;
     let voertuig = voertuigRadio.value;
     let upsellStatus = upsellRadio ? upsellRadio.value : null;
-    let geenOnderhoud = document.getElementById('geenOnderhoud').checked;
     let bsi = document.getElementById('bsi').checked;
     let apk = document.getElementById('apk').checked;
     let voertuigcheck = document.getElementById('voertuigcheck').checked;
@@ -437,6 +434,7 @@ function bereken() {
     let transmissie = document.getElementById('transmissieolie').checked;
     let tra = document.getElementById('tra').checked;
     let diagnose = document.getElementById('diagnose').checked;
+    let eindeGarantie = document.getElementById('eindeGarantie').checked;
 
     ['olieOptie','transmissieOptie'].forEach(id => {
         const wrapper = document.getElementById(id);
@@ -450,13 +448,14 @@ function bereken() {
     }
 
     let heeftOnderhoud = olie || rem || voertuigcheck;
-    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie) && !heeftOnderhoud);
+    let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie || eindeGarantie) && !heeftOnderhoud);
 
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
     if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
     if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
+    if (eindeGarantie) { doen.push("Einde garantie in menu W zetten"); }
 
     if (klant === 'lease') { 
         nietDoen.add("12 punten check uitvoeren (niet toegestaan bij lease)"); 

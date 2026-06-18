@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<title>Dusseldorp | 2e lijn assistent</title>
+<title>Dusseldorp | 2e lijn assistant</title>
 <style>
     :root {
         --dusseldorp-blue: #1c69d4;
@@ -33,7 +33,7 @@
         font-family: "BMWTypeNext", "Segoe UI", Roboto, Arial, sans-serif; 
         margin:0; 
         background: var(--bg-light); 
-        font-size: 12px; 
+        font-size: 14px; 
         color: var(--text-main); 
         -webkit-font-smoothing: antialiased;
         transition: background 0.3s ease, color 0.3s ease;
@@ -86,7 +86,7 @@
         padding: 6px 12px;
         border-radius: 20px;
         cursor: pointer;
-        font-size: 9px;
+        font-size: 10px;
         font-weight: 700;
         text-transform: uppercase;
         z-index: 10;
@@ -107,14 +107,14 @@
         display: block; 
         color: var(--text-main); 
         text-transform: uppercase; 
-        font-size: 10px; 
+        font-size: 11px; 
         letter-spacing: 1px; 
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 5px;
     }
 
     .sub-label {
-        font-size: 9px;
+        font-size: 10px;
         font-weight: 600;
         color: var(--dusseldorp-grey);
         margin: 12px 0 6px 0;
@@ -133,7 +133,7 @@
         border: 1px solid var(--border-color); 
         border-radius: 6px; 
         cursor: pointer; 
-        font-size: 11px;
+        font-size: 12.5px;
         transition: all 0.2s ease;
     }
     
@@ -156,7 +156,7 @@
 
     select { 
         width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); 
-        background: var(--input-bg); color: var(--text-main); font-size: 12px; outline: none;
+        background: var(--input-bg); color: var(--text-main); font-size: 13.5px; outline: none;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
     select:focus {
@@ -168,7 +168,7 @@
         padding: 15px; 
         border-radius: 6px; 
         margin-bottom: 12px; 
-        font-size: 11px; 
+        font-size: 13px; 
         background: var(--input-bg);
         border: 1px solid var(--border-color);
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
@@ -176,7 +176,7 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
     
-    .block b { display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+    .block b { display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
     
     .green { border-left: 4px solid var(--success); }
     .green b { color: var(--success); }
@@ -193,7 +193,7 @@
         border-radius: 8px; 
         padding: 15px; 
         font-family: inherit; 
-        font-size: 12px; 
+        font-size: 13.5px; 
         resize: none; 
         line-height: 1.5; 
         background: var(--input-bg); 
@@ -215,7 +215,7 @@
     .btn-reset { background: transparent; color: var(--dusseldorp-grey); margin-top: 20px; width: 100%; border: 1px solid var(--border-color); padding: 8px; cursor:pointer; border-radius:6px; transition: background 0.2s;}
     .btn-reset:hover { background: var(--bg-light); color: var(--text-main); }
 
-    #copyStatus { height: 20px; margin-top: 8px; text-align: center; color: var(--success); font-size: 10px; font-weight: bold; letter-spacing: 0.5px; }
+    #copyStatus { height: 20px; margin-top: 8px; text-align: center; color: var(--success); font-size: 11px; font-weight: bold; letter-spacing: 0.5px; }
 
     .checklist-wrapper {
         margin-top: auto;
@@ -230,7 +230,7 @@
         list-style: none;
     }
     .checklist li {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--dusseldorp-grey);
         position: relative;
         padding-left: 14px;
@@ -269,7 +269,7 @@
             <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
         </div>
-        <div style="font-size: 10px; font-weight: bold; margin-top: 6px; letter-spacing: 0.3px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
+        <div style="font-size: 11px; font-weight: bold; margin-top: 6px; letter-spacing: 0.3px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
 
         <div id="upsellWrapper" class="hidden">
             <span class="sub-label">UPSELL STATUS</span>
@@ -454,7 +454,7 @@ function bereken() {
 
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
-    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
+    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. the actie"); }
     if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
     if (eindeGarantie) { doen.push("Einde garantie in menu W zetten"); }
@@ -492,6 +492,11 @@ function bereken() {
         if (remmen) nietDoen.add("H111 toevoegen in menu remmen (niet i.c.m. BSI)");
         doen.push("In menu B zetten i.v.m. BSI contract"); 
     }
+
+    // Regels waarbij iets in menu Z, B of W geplaatst moet worden altijd onderaan zetten
+    let menuItems = doen.filter(item => item.includes("menu Z") || item.includes("menu B") || item.includes("menu W"));
+    let overigeItems = doen.filter(item => !(item.includes("menu Z") || item.includes("menu B") || item.includes("menu W")));
+    doen = [...overigeItems, ...menuItems];
 
     let resHtml = "";
     if (doen.length) { resHtml += `<div class="block green"><b>✔ Wel doen:</b>`; doen.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }

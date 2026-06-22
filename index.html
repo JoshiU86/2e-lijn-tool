@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<title>Dusseldorp | 2e lijn assistant</title>
+<title>Dusseldorp | 2e lijns assistent</title>
 <style>
     :root {
         --dusseldorp-blue: #1c69d4;
@@ -33,7 +33,7 @@
         font-family: "BMWTypeNext", "Segoe UI", Roboto, Arial, sans-serif; 
         margin:0; 
         background: var(--bg-light); 
-        font-size: 14px; 
+        font-size: 13.5px; 
         color: var(--text-main); 
         -webkit-font-smoothing: antialiased;
         transition: background 0.3s ease, color 0.3s ease;
@@ -44,7 +44,7 @@
 
     .left { 
         width: 30%; 
-        padding: 30px; 
+        padding: 15px 20px; 
         background: var(--white); 
         overflow-y: auto; 
         box-shadow: 2px 0 15px rgba(0,0,0,0.03); 
@@ -54,7 +54,7 @@
 
     .middle { 
         width: 35%; 
-        padding: 30px; 
+        padding: 20px; 
         background: var(--bg-light); 
         overflow-y: auto; 
         z-index: 2;
@@ -63,7 +63,7 @@
 
     .right { 
         width: 35%; 
-        padding: 30px; 
+        padding: 20px; 
         background: var(--white); 
         display: flex; 
         flex-direction: column;
@@ -78,62 +78,58 @@
 
     .theme-toggle {
         position: absolute;
-        top: 15px;
-        left: 15px;
+        top: 12px;
+        left: 12px;
         background: var(--input-bg);
         border: 1px solid var(--border-color);
         color: var(--dusseldorp-grey);
-        padding: 6px 12px;
+        padding: 4px 10px;
         border-radius: 20px;
         cursor: pointer;
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 700;
         text-transform: uppercase;
         z-index: 10;
         transition: all 0.2s;
     }
-    
-    .theme-toggle:hover {
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
 
-    .logo-container { margin-bottom: 25px; text-align: center; }
-    .logo-container img { height: 35px; width: auto; transition: filter 0.3s; }
+    .logo-container { margin-bottom: 12px; text-align: center; }
+    .logo-container img { height: 26px; width: auto; transition: filter 0.3s; }
     body.dark-mode .logo-container img { filter: brightness(0) invert(1); }
 
     .section-title { 
         font-weight: 700; 
-        margin: 15px 0 10px 0; 
+        margin: 10px 0 6px 0; 
         display: block; 
         color: var(--text-main); 
         text-transform: uppercase; 
-        font-size: 11px; 
-        letter-spacing: 1px; 
+        font-size: 10.5px; 
+        letter-spacing: 0.8px; 
         border-bottom: 1px solid var(--border-color);
-        padding-bottom: 5px;
+        padding-bottom: 3px;
     }
 
     .sub-label {
-        font-size: 10px;
+        font-size: 9.5px;
         font-weight: 600;
         color: var(--dusseldorp-grey);
-        margin: 12px 0 6px 0;
+        margin: 6px 0 4px 0;
         display: block;
         letter-spacing: 0.5px;
     }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
     .full { grid-column: span 2; }
 
     .option { 
         display: flex; 
         align-items: center; 
-        padding: 10px; 
+        padding: 6px 8px; 
         background: var(--input-bg); 
         border: 1px solid var(--border-color); 
-        border-radius: 6px; 
+        border-radius: 5px; 
         cursor: pointer; 
-        font-size: 12.5px;
+        font-size: 11.5px;
         transition: all 0.2s ease;
     }
     
@@ -143,9 +139,9 @@
     }
 
     input[type="radio"], input[type="checkbox"] { 
-        margin-right: 10px; 
+        margin-right: 6px; 
         accent-color: var(--dusseldorp-blue);
-        transform: scale(1.1);
+        transform: scale(1.0);
         cursor: pointer;
     }
 
@@ -155,94 +151,57 @@
     .hidden { display: none !important; }
 
     select { 
-        width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); 
-        background: var(--input-bg); color: var(--text-main); font-size: 13.5px; outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    select:focus {
-        border-color: var(--dusseldorp-blue);
-        box-shadow: 0 0 0 2px rgba(28, 105, 212, 0.1);
+        width: 100%; padding: 6px 10px; border-radius: 5px; border: 1px solid var(--border-color); 
+        background: var(--input-bg); color: var(--text-main); font-size: 12.5px; outline: none;
     }
 
     .block { 
-        padding: 15px; 
-        border-radius: 6px; 
-        margin-bottom: 12px; 
-        font-size: 13px; 
+        padding: 12px; 
+        border-radius: 5px; 
+        margin-bottom: 10px; 
+        font-size: 12.5px; 
         background: var(--input-bg);
         border: 1px solid var(--border-color);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        animation: fadeIn 0.3s ease; 
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
     
-    .block b { display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+    .block b { display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
     
     .green { border-left: 4px solid var(--success); }
     .green b { color: var(--success); }
     .red { border-left: 4px solid var(--danger); }
     .red b { color: var(--danger); }
 
-    .list-item { margin: 6px 0; display: flex; line-height: 1.4; color: var(--text-main); }
-    .list-item:before { content: "→"; margin-right: 8px; font-weight: bold; color: var(--dusseldorp-grey); }
+    .list-item { margin: 4px 0; display: flex; line-height: 1.3; color: var(--text-main); }
+    .list-item:before { content: "→"; margin-right: 6px; font-weight: bold; color: var(--dusseldorp-grey); }
 
     #klantbericht { 
         flex-grow: 1; 
         width: 100%; 
         border: 1px solid var(--border-color); 
-        border-radius: 8px; 
-        padding: 15px; 
+        border-radius: 6px; 
+        padding: 12px; 
         font-family: inherit; 
-        font-size: 13.5px; 
+        font-size: 12.5px; 
         resize: none; 
-        line-height: 1.5; 
+        line-height: 1.45; 
         background: var(--input-bg); 
         color: var(--text-main); 
         outline: none;
-        margin-bottom: 15px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    
-    #klantbericht:focus {
-        border-color: var(--dusseldorp-blue);
-        box-shadow: 0 0 0 3px rgba(28, 105, 212, 0.1);
+        margin-bottom: 10px;
     }
 
-    .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 5px; padding: 12px; border:none; border-radius:6px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; transition: all 0.2s;}
-    .btn-copy:hover { background: #1656b0; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(28, 105, 212, 0.2); }
-    .btn-copy:active { transform: translateY(0); }
+    .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 2px; padding: 10px; border:none; border-radius:5px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; font-size:12px; }
+    .btn-copy:hover { background: #1656b0; }
     
-    .btn-reset { background: transparent; color: var(--dusseldorp-grey); margin-top: 20px; width: 100%; border: 1px solid var(--border-color); padding: 8px; cursor:pointer; border-radius:6px; transition: background 0.2s;}
+    .btn-reset { background: transparent; color: var(--dusseldorp-grey); margin-top: 12px; width: 100%; border: 1px solid var(--border-color); padding: 5px; cursor:pointer; border-radius:5px; font-size: 11px; }
     .btn-reset:hover { background: var(--bg-light); color: var(--text-main); }
 
-    #copyStatus { height: 20px; margin-top: 8px; text-align: center; color: var(--success); font-size: 11px; font-weight: bold; letter-spacing: 0.5px; }
+    #copyStatus { height: 15px; margin-top: 4px; text-align: center; color: var(--success); font-size: 10px; font-weight: bold; }
 
-    .checklist-wrapper {
-        margin-top: auto;
-        padding-top: 15px;
-    }
-    .checklist {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-    }
-    .checklist li {
-        font-size: 12px;
-        color: var(--dusseldorp-grey);
-        position: relative;
-        padding-left: 14px;
-        line-height: 1.3;
-    }
-    .checklist li::before {
-        content: "•";
-        position: absolute;
-        left: 0;
-        color: var(--dusseldorp-blue);
-        font-weight: bold;
-    }
+    .checklist-wrapper { margin-top: auto; padding-top: 10px; }
+    .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 0; margin: 0; list-style: none; }
+    .checklist li { font-size: 11px; color: var(--dusseldorp-grey); position: relative; padding-left: 12px; line-height: 1.2; }
+    .checklist li::before { content: "•"; position: absolute; left: 0; color: var(--dusseldorp-blue); font-weight: bold; }
 </style>
 </head>
 <body>
@@ -255,7 +214,7 @@
         </div>
         
         <span class="section-title">1. Locatie & Aanvraag</span>
-        <div class="full" style="margin-bottom: 10px;">
+        <div class="full" style="margin-bottom: 6px;">
             <select id="vestiging">
                 <option value="Apeldoorn">Apeldoorn</option><option value="Zwolle">Zwolle</option><option value="Deventer">Deventer</option>
                 <option value="Alkmaar">Alkmaar</option><option value="Hoorn">Hoorn</option><option value="Oostzaan">Oostzaan</option>
@@ -269,12 +228,12 @@
             <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
         </div>
-        <div style="font-size: 11px; font-weight: bold; margin-top: 6px; letter-spacing: 0.3px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
+        <div style="font-size: 10.5px; font-weight: bold; margin-top: 4px; letter-spacing: 0.2px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
 
         <div id="upsellWrapper" class="hidden">
             <span class="sub-label">UPSELL STATUS</span>
             <div class="grid-2">
-                <label class="option"><input type="radio" name="upsellStatus" value="besproken"> Reeds besproken/op order</label>
+                <label class="option"><input type="radio" name="upsellStatus" value="besproken"> Upsell reeds gedaan/n.v.t.</label>
                 <label class="option"><input type="radio" name="upsellStatus" value="aanbieden"> Nog aanbieden</label>
             </div>
         </div>
@@ -288,17 +247,20 @@
         <span class="section-title">3. Factoren</span>
         
         <span class="sub-label">ONDERHOUD</span>
-        <label class="option" style="border: 1px dashed var(--danger); color: var(--danger); margin-bottom:8px; background: transparent;"><input type="checkbox" id="geenOnderhoud"> GEEN ONDERHOUD</label>
+        <label class="option" style="border: 1px dashed var(--danger); color: var(--danger); margin-bottom:5px; background: transparent; padding: 4px 8px;"><input type="checkbox" id="geenOnderhoud"> GEEN ONDERHOUD</label>
         <div class="grid-2">
             <label class="option opt-onderhoud" id="olieOptie"><input type="checkbox" id="olie" class="onderhoud-input"> Motorolie</label>
             <label class="option opt-onderhoud" id="remOptie"><input type="checkbox" id="rem" class="onderhoud-input"> Remvloeistof</label>
             <label class="option opt-onderhoud" id="remmenOptie"><input type="checkbox" id="remmen" class="onderhoud-input"> Remmen</label>
             <label class="option opt-onderhoud" id="voertuigcheckOptie"><input type="checkbox" id="voertuigcheck" class="onderhoud-input"> Voertuigcheck</label>
-            <label class="option opt-onderhoud" id="transmissieOptie"><input type="checkbox" id="transmissieolie" class="onderhoud-input"> Transmissievloeistof</label>
+            <label class="option opt-onderhoud full" id="transmissieOptie"><input type="checkbox" id="transmissieolie" class="onderhoud-input"> Transmissievloeistof</label>
+        </div>
+        
+        <div style="margin-top: 5px;">
             <label class="option opt-verplicht"><input type="checkbox" id="bsi"> BSI Actief</label>
         </div>
 
-        <span class="sub-label" style="margin-top: 15px;">OVERIGE ZAKEN</span>
+        <span class="sub-label">OVERIGE ZAKEN</span>
         <div class="grid-2">
             <label class="option opt-verplicht"><input type="checkbox" id="apk"> APK</label>
             <label class="option opt-verplicht"><input type="checkbox" id="tra"> TRA</label>
@@ -306,7 +268,14 @@
             <label class="option opt-verplicht"><input type="checkbox" id="eindeGarantie"> Einde garantie controle</label>
         </div>
 
-        <button onclick="resetForm()" class="btn-reset">Reset Sessie</button>
+        <span class="sub-label">VERVANGEND VERVOER</span>
+        <div class="grid-2">
+            <label class="option"><input type="radio" name="mobiliteit" value="vervoer"> Vervangend vervoer</label>
+            <label class="option"><input type="radio" name="mobiliteit" value="geen"> Geen vervangend vervoer</label>
+            <label class="option full"><input type="radio" name="mobiliteit" value="wachter"> Wachter</label>
+        </div>
+
+        <button onclick="resetForm()" class="btn-reset">Sessie resetten</button>
     </div>
 
     <div class="middle">
@@ -315,13 +284,13 @@
     </div>
 
     <div class="right" id="rightCol">
-        <span class="section-title">Concept Klantbericht</span>
+        <span class="section-title">Concept klantbericht</span>
         <textarea id="klantbericht" readonly placeholder="Selecteer eerst de factoren links..."></textarea>
-        <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn">Kopieer Bericht</button>
+        <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn">Kopieer bericht</button>
         <div id="copyStatus"></div>
 
         <div class="checklist-wrapper">
-            <span class="section-title" style="border: none; padding: 0;">Laatste Controle</span>
+            <span class="section-title" style="border: none; padding: 0;">Laatste controle</span>
             <ul class="checklist">
                 <li>Klantgegevens controleren</li>
                 <li>AWP en werkorder compleet</li>
@@ -345,7 +314,7 @@ const BERICHTEN = {
     aanhef: "Geachte heer/mevrouw,\n\n",
     lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren i.v.m. de planning.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke en door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren i.v.m. de planning en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
-    evOfBeide: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
+    evUpsell: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde werkzaamheden. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     afsluiting: (vestiging) => `\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`
@@ -373,15 +342,30 @@ document.getElementById('geenOnderhoud').addEventListener('change', function() {
     bereken();
 });
 
+document.querySelectorAll('input[name="voertuig"]').forEach(el => {
+    el.addEventListener('change', function() {
+        if (this.value === 'ev' && !document.getElementById('geenOnderhoud').checked) {
+            let vc = document.getElementById('voertuigcheck');
+            let rm = document.getElementById('rem');
+            if (!vc.dataset.manual) vc.checked = true;
+            if (!rm.dataset.manual) rm.checked = true;
+        }
+        bereken();
+    });
+});
+
 document.querySelectorAll('.onderhoud-input').forEach(el => {
     el.addEventListener('change', function() {
+        if (this.id === 'voertuigcheck' || this.id === 'rem') this.dataset.manual = true;
         if (this.checked) document.getElementById('geenOnderhoud').checked = false;
         bereken();
     });
 });
 
 document.querySelectorAll('input').forEach(el => {
-    if (!el.classList.contains('onderhoud-input') && el.id !== 'geenOnderhoud') el.addEventListener('change', bereken);
+    if (!el.classList.contains('onderhoud-input') && el.id !== 'geenOnderhoud' && el.name !== 'voertuig') {
+        el.addEventListener('change', bereken);
+    }
 });
 
 document.getElementById('vestiging').addEventListener('change', function() {
@@ -429,14 +413,19 @@ function bereken() {
     let upsellStatus = upsellRadio ? upsellRadio.value : null;
     let bsi = document.getElementById('bsi').checked;
     let apk = document.getElementById('apk').checked;
+    
     let voertuigcheck = document.getElementById('voertuigcheck').checked;
     let olie = document.getElementById('olie').checked;
     let rem = document.getElementById('rem').checked;
     let remmen = document.getElementById('remmen').checked;
+    
     let transmissie = document.getElementById('transmissieolie').checked;
     let tra = document.getElementById('tra').checked;
     let diagnose = document.getElementById('diagnose').checked;
     let eindeGarantie = document.getElementById('eindeGarantie').checked;
+    
+    let mobiliteitRadio = document.querySelector('input[name="mobiliteit"]:checked');
+    let mobiliteit = mobiliteitRadio ? mobiliteitRadio.value : null;
 
     ['olieOptie','transmissieOptie'].forEach(id => {
         const wrapper = document.getElementById(id);
@@ -444,56 +433,57 @@ function bereken() {
         else wrapper.classList.remove('hidden');
     });
 
-    if (voertuig === 'ev' && !geenOnderhoud) {
-        if(!document.getElementById('voertuigcheck').dataset.manual) voertuigcheck = true;
-        if(!document.getElementById('rem').dataset.manual) rem = true;
-    }
-
     let heeftOnderhoud = olie || rem || voertuigcheck || remmen;
+    let heeftUpsell = olie || rem || voertuigcheck; 
     let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie || eindeGarantie) && !heeftOnderhoud);
 
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
-    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. the actie"); }
-    if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen"); }
+    if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
+    if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimerregel toevoegen"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
     if (eindeGarantie) { doen.push("Einde garantie in menu W zetten"); }
-    if (remmen && !bsi) { doen.push("H111 toevoegen in menu remmen"); }
+    if (remmen) { 
+        doen.push("H111 toevoegen in menu remmen"); 
+    }
+
+    if (mobiliteit === 'vervoer') {
+        doen.push("Controleer of regel vervangend vervoer op WO staat, anders toevoegen");
+    } else if (mobiliteit === 'wachter') {
+        doen.push("Wachttijd eindtijd");
+    }
 
     if (klant === 'lease') { 
-        nietDoen.add("12 punten check uitvoeren (niet toegestaan bij lease)"); 
+        nietDoen.add("12-puntencheck uitvoeren (niet toegestaan bij lease)"); 
         nietDoen.add("Upsell aanbieden"); 
     }
     
     if (klant === 'particulier') {
-        if (upsellStatus === 'aanbieden' && heeftOnderhoud && !alleenTraOfApk) doen.push("Upsell aanbieden");
-        else if (upsellStatus === 'besproken') nietDoen.add("Upsell aanbieden");
+        if (upsellStatus === 'aanbieden' && heeftUpsell && !alleenTraOfApk) doen.push("Upsell aanbieden");
+        else if (upsellStatus === 'besproken' && heeftUpsell) nietDoen.add("Upsell aanbieden");
         
-        if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12 punten check uitvoeren");
+        if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12-puntencheck uitvoeren");
     }
 
     if (olie && voertuig !== 'ev') {
-        doen.push("Controleer Olietype OSLX");
+        doen.push("Controleer olietype OSLX");
     }
 
-    if (!alleenTraOfApk && !bsi) { 
+    // Aangepaste logica: BSI heft H11 en H114 op, maar H111 voor remmen blijft altijd
+    if (!bsi) { 
         if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan motorolie"); 
         if (rem) doen.push("H114 toevoegen aan remvloeistof"); 
+    } else {
+        if (klant !== 'lease') nietDoen.add("12-puntencheck uitvoeren (niet i.c.m. BSI)"); 
+        if (olie && voertuig !== 'ev') nietDoen.add("H111 toevoegen aan motorolie (niet i.c.m. BSI)"); 
+        if (rem) nietDoen.add("H114 toevoegen aan remvloeistof (niet i.c.m. BSI)"); 
+        doen.push("In menu B zetten i.v.m. BSI-contract"); 
     }
 
     if (voertuig === 'brandstof' && olie) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
     if (voertuig === 'ev' && heeftOnderhoud) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
     if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren");
 
-    if (bsi) { 
-        if (klant !== 'lease') nietDoen.add("12 punten check uitvoeren (niet i.c.m. BSI)"); 
-        if (olie && voertuig !== 'ev') nietDoen.add("H111 toevoegen (niet i.c.m. BSI)"); 
-        if (rem) nietDoen.add("H114 toevoegen (niet i.c.m. BSI)"); 
-        if (remmen) nietDoen.add("H111 toevoegen in menu remmen (niet i.c.m. BSI)");
-        doen.push("In menu B zetten i.v.m. BSI contract"); 
-    }
-
-    // Regels waarbij iets in menu Z, B of W geplaatst moet worden altijd onderaan zetten
     let menuItems = doen.filter(item => item.includes("menu Z") || item.includes("menu B") || item.includes("menu W"));
     let overigeItems = doen.filter(item => !(item.includes("menu Z") || item.includes("menu B") || item.includes("menu W")));
     doen = [...overigeItems, ...menuItems];
@@ -506,11 +496,21 @@ function bereken() {
     document.getElementById('resultaat').innerHTML = resHtml;
 
     let finalBody = "";
-    if (klant === 'lease') finalBody = BERICHTEN.lease;
-    else if (upsellStatus === 'besproken' || alleenTraOfApk) finalBody = BERICHTEN.standaard;
-    else if (voertuig === 'ev' || (olie && rem)) finalBody = BERICHTEN.evOfBeide;
-    else if (rem && !olie) finalBody = BERICHTEN.alleenRem;
-    else if (olie && !rem) finalBody = BERICHTEN.alleenOlie;
+    if (klant === 'lease') {
+        finalBody = BERICHTEN.lease;
+    } else if (upsellStatus === 'besproken' || alleenTraOfApk) {
+        finalBody = BERICHTEN.standaard;
+    } else if (voertuig === 'ev' && rem && voertuigcheck) {
+        finalBody = BERICHTEN.evUpsell;
+    } else if (voertuig === 'brandstof' && (olie && rem)) {
+        finalBody = BERICHTEN.evUpsell;
+    } else if (rem && !olie) {
+        finalBody = BERICHTEN.alleenRem;
+    } else if (olie && !rem) {
+        finalBody = BERICHTEN.alleenOlie;
+    } else {
+        finalBody = BERICHTEN.standaard;
+    }
 
     document.getElementById('klantbericht').value = BERICHTEN.aanhef + finalBody + BERICHTEN.afsluiting(vestiging);
 }
@@ -521,8 +521,6 @@ function resetForm() {
     document.getElementById('klantbericht').value = "";
     document.getElementById('upsellWrapper').classList.add('hidden');
 }
-document.getElementById('voertuigcheck').addEventListener('click', function() { this.dataset.manual = true; });
-document.getElementById('rem').addEventListener('click', function() { this.dataset.manual = true; });
 </script>
 </body>
 </html>

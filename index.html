@@ -50,6 +50,7 @@
         box-shadow: 2px 0 15px rgba(0,0,0,0.03); 
         z-index: 3;
         border-right: 1px solid var(--border-color);
+        position: relative; /* Toegevoegd voor de positionering van de theme-toggle */
     }
 
     .middle { 
@@ -78,8 +79,8 @@
 
     .theme-toggle {
         position: absolute;
-        top: 12px;
-        left: 12px;
+        top: 15px;
+        right: 20px; /* Verplaatst naar rechts zodat het logo vrij staat */
         background: var(--input-bg);
         border: 1px solid var(--border-color);
         color: var(--dusseldorp-grey);
@@ -93,8 +94,18 @@
         transition: all 0.2s;
     }
 
-    .logo-container { margin-bottom: 12px; text-align: center; }
-    .logo-container img { height: 26px; width: auto; transition: filter 0.3s; }
+    .logo-container { 
+        margin-top: 5px;
+        margin-bottom: 25px; 
+        text-align: left; /* Links uitgelijnd past beter met de tekst eronder */
+    }
+    
+    .logo-container img { 
+        height: 45px; /* Logo aanzienlijk vergroot */
+        width: auto; 
+        transition: filter 0.3s; 
+    }
+    
     body.dark-mode .logo-container img { filter: brightness(0) invert(1); }
 
     .section-title { 
@@ -313,7 +324,7 @@
 const BERICHTEN = {
     aanhef: "Geachte heer/mevrouw,\n\n",
     lease: "Binnenkort verwelkomen wij u graag in onze werkplaats.\n\nDe werkorder voor uw leaseauto is inmiddels compleet en de geplande werkzaamheden zijn voor u in te zien via de blauwe knop ‘afspraak’. Wij verzoeken u vriendelijk om deze werkzaamheden vooraf te controleren i.v.m. de planning.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
-    standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke en door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren i.v.m. de planning en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
+    standaard: "Binnenkort verwelkomen wij u graag in onze werkplaats.\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. Hier vindt u alle voor uw voertuig noodzakelijke van door ons geadviseerde werkzaamheden.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren i.v.m. de planning en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct voor u aan de slag zodra u de sleutel hebt afgegeven.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     evUpsell: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde werkzaamheden. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
@@ -454,34 +465,40 @@ function bereken() {
     }
 
     if (klant === 'lease') { 
-        nietDoen.add("12-puntencheck uitvoeren (niet toegestaan bij lease)"); 
         nietDoen.add("Upsell aanbieden"); 
     }
     
     if (klant === 'particulier') {
         if (upsellStatus === 'aanbieden' && heeftUpsell && !alleenTraOfApk) doen.push("Upsell aanbieden");
         else if (upsellStatus === 'besproken' && heeftUpsell) nietDoen.add("Upsell aanbieden");
-        
-        if (heeftOnderhoud && !bsi && !apk && !voertuigcheck && voertuig !== 'ev' && !(rem && !olie) && !alleenTraOfApk) doen.push("12-puntencheck uitvoeren");
     }
 
     if (olie && voertuig !== 'ev') {
         doen.push("Controleer olietype OSLX");
     }
 
-    // Aangepaste logica: BSI heft H11 en H114 op, maar H111 voor remmen blijft altijd
+    if (olie && voertuig !== 'ev' && !apk && !voertuigcheck) {
+        if (klant === 'lease') {
+            nietDoen.add("12-puntencheck uitvoeren (niet toegestaan bij lease)");
+        } else if (bsi) {
+            nietDoen.add("12-puntencheck uitvoeren (niet i.c.m. BSI)");
+        } else {
+            doen.push("12-puntencheck uitvoeren");
+        }
+    }
+
     if (!bsi) { 
         if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan motorolie"); 
         if (rem) doen.push("H114 toevoegen aan remvloeistof"); 
     } else {
-        if (klant !== 'lease') nietDoen.add("12-puntencheck uitvoeren (niet i.c.m. BSI)"); 
         if (olie && voertuig !== 'ev') nietDoen.add("H111 toevoegen aan motorolie (niet i.c.m. BSI)"); 
         if (rem) nietDoen.add("H114 toevoegen aan remvloeistof (niet i.c.m. BSI)"); 
         doen.push("In menu B zetten i.v.m. BSI-contract"); 
     }
 
     if (voertuig === 'brandstof' && olie) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
-    if (voertuig === 'ev' && heeftOnderhoud) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
+    if (voertuig === 'ev' && voertuigcheck) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
+    
     if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren");
 
     let menuItems = doen.filter(item => item.includes("menu Z") || item.includes("menu B") || item.includes("menu W"));

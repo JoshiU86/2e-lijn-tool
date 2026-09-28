@@ -184,6 +184,8 @@
 
     .list-item { margin: 4px 0; display: flex; line-height: 1.3; color: var(--text-main); }
     .list-item:before { content: "→"; margin-right: 6px; font-weight: bold; color: var(--dusseldorp-grey); }
+    .sub-item { margin: 3px 0 2px 10px; color: var(--dusseldorp-grey); font-size: 11.5px; }
+    .sub-item::before { content: "• "; color: var(--dusseldorp-blue); font-weight: bold; }
 
     #klantbericht { 
         flex-grow: 1; 
@@ -204,6 +206,34 @@
     .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 2px; padding: 10px; border:none; border-radius:5px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; font-size:12px; }
     .btn-copy:hover { background: #1656b0; }
     
+    .btn-snel-wissel { 
+        background: #fff5f5; 
+        color: var(--danger); 
+        border: 1px solid #fca5a5; 
+        padding: 8px 10px; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-weight: 700; 
+        width: 100%; 
+        font-size: 11px; 
+        margin-bottom: 10px;
+        text-align: center;
+        transition: all 0.2s;
+    }
+    .btn-snel-wissel:hover { 
+        background: var(--danger); 
+        color: var(--white); 
+    }
+    body.dark-mode .btn-snel-wissel {
+        background: #2a1215;
+        border-color: #991b1b;
+        color: #f87171;
+    }
+    body.dark-mode .btn-snel-wissel:hover {
+        background: var(--danger);
+        color: var(--white);
+    }
+
     .btn-reset { background: transparent; color: var(--dusseldorp-grey); margin-top: 12px; width: 100%; border: 1px solid var(--border-color); padding: 5px; cursor:pointer; border-radius:5px; font-size: 11px; }
     .btn-reset:hover { background: var(--bg-light); color: var(--text-main); }
 
@@ -297,6 +327,9 @@
 
     <div class="right" id="rightCol">
         <span class="section-title">Concept klantbericht</span>
+        
+        <button onclick="laadWielwisselBericht()" class="btn-snel-wissel">🛞 Snelbericht Wiel set wissel laden</button>
+
         <textarea id="klantbericht" readonly placeholder="Selecteer eerst de factoren links..."></textarea>
         <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn">Kopieer bericht</button>
         <div id="copyStatus"></div>
@@ -329,6 +362,7 @@ const BERICHTEN = {
     evUpsell: "Binnenkort verwelkomen wij u graag in onze werkplaats. \nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \n\nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde werkzaamheden. Wij adviseren een Microfilterhuis-reiniging in combinatie met de Service Microfilter. Deze behandeling zorgt voor een inwendige reiniging van het aircosysteem, waarbij schimmels en bacteriën worden verwijderd. Dit draagt bij aan een frisser en gezonder klimaat in uw auto.\n\nDaarnaast adviseren wij een Airco Service in combinatie met de Service Remvloeistof. Uw airconditioning verliest ieder jaar gemiddeld zo’n 10% van het koudemiddel. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenRem: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco Service in combinatie met de Service Remvloeistof. Wij adviseren deze aanvullende service omdat uw airconditioning ieder jaar gemiddeld zo’n 10% van het koudemiddel verliest. Met de Dusseldorp Aircoservice controleren wij het systeem op lekkage en vullen wij het verloren koudemiddel aan, zodat uw airco optimaal blijft functioneren.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
     alleenOlie: "Binnenkort verwelkomen wij u graag in onze werkplaats. \n\nUw werkorder is inmiddels compleet en inzichtelijk gemaakt via uw afspraakgegevens. \nHier vindt u alle voor uw voertuig noodzakelijke werkzaamheden, aangevuld met de door ons geadviseerde Airco-reiniging in combinatie met de Service Microfilter. Wij adviseren deze aanvullende service omdat hiermee het aircosysteem inwendig wordt gereinigd van schimmels en bacteriën, wat zorgt voor een gezonder klimaat in uw auto.\n\nWij verzoeken u vriendelijk om de werkzaamheden vooraf te controleren en, indien u akkoord bent, deze alvast digitaal te ondertekenen. Zo kunnen wij op de dag van de afspraak direct aan de slag zodra u de sleutel hebt afgegeven. \n\nHeeft u nog aanvullende wensen? Geef dit dan uiterlijk twee dagen vóór uw afspraak aan via een chatbericht. Latere verzoeken nemen wij graag in overweging, maar kunnen we niet altijd meer inplannen.\n\nWij verzoeken u vriendelijk om bij uw werkplaatsafspraak altijd de fysieke sleutel mee te nemen.",
+    wielwissel: (vestiging) => `Geachte heer/mevrouw [Klantnaam],\n\nHierbij bevestigen wij uw afspraak voor de bandenwissel. Om de wachttijd voor u te verkorten is er tijdens deze afspraak geen gelegenheid tot het uitvoeren van extra werkzaamheden. Mocht u de wissel toch willen combineren met andere werkzaamheden, dan verzoeken wij u dit via deze chat te melden, zodat wij met u contact op kunnen nemen.\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`,
     afsluiting: (vestiging) => `\n\nMet vriendelijke groet,\nDusseldorp ${vestiging}`
 };
 
@@ -356,11 +390,15 @@ document.getElementById('geenOnderhoud').addEventListener('change', function() {
 
 document.querySelectorAll('input[name="voertuig"]').forEach(el => {
     el.addEventListener('change', function() {
-        if (this.value === 'ev' && !document.getElementById('geenOnderhoud').checked) {
-            let vc = document.getElementById('voertuigcheck');
-            let rm = document.getElementById('rem');
-            if (!vc.dataset.manual) vc.checked = true;
-            if (!rm.dataset.manual) rm.checked = true;
+        if (this.value === 'ev') {
+            document.getElementById('olie').checked = false;
+            document.getElementById('transmissieolie').checked = false;
+            if (!document.getElementById('geenOnderhoud').checked) {
+                let vc = document.getElementById('voertuigcheck');
+                let rm = document.getElementById('rem');
+                if (!vc.dataset.manual) vc.checked = true;
+                if (!rm.dataset.manual) rm.checked = true;
+            }
         }
         bereken();
     });
@@ -384,6 +422,12 @@ document.getElementById('vestiging').addEventListener('change', function() {
     localStorage.setItem('vestiging', this.value);
     bereken();
 });
+
+function laadWielwisselBericht() {
+    let vestiging = document.getElementById('vestiging').value;
+    document.getElementById('klantbericht').value = BERICHTEN.wielwissel(vestiging);
+    document.getElementById('resultaat').innerHTML = `<div class="block green"><b>🛞 Snelbericht geladen:</b><div class="list-item">Wiel set wissel klantbericht klaargezet.</div></div>`;
+}
 
 function kopieerBericht() {
     const tekst = document.getElementById('klantbericht');
@@ -427,17 +471,14 @@ function bereken() {
     let apk = document.getElementById('apk').checked;
     
     let voertuigcheck = document.getElementById('voertuigcheck').checked;
-    let olie = document.getElementById('olie').checked;
+    let olie = voertuig === 'ev' ? false : document.getElementById('olie').checked;
     let rem = document.getElementById('rem').checked;
     let remmen = document.getElementById('remmen').checked;
     
-    let transmissie = document.getElementById('transmissieolie').checked;
+    let transmissie = voertuig === 'ev' ? false : document.getElementById('transmissieolie').checked;
     let tra = document.getElementById('tra').checked;
     let diagnose = document.getElementById('diagnose').checked;
     let eindeGarantie = document.getElementById('eindeGarantie').checked;
-    
-    let mobiliteitRadio = document.querySelector('input[name="mobiliteit"]:checked');
-    let mobiliteit = mobiliteitRadio ? mobiliteitRadio.value : null;
 
     ['olieOptie','transmissieOptie'].forEach(id => {
         const wrapper = document.getElementById(id);
@@ -449,10 +490,13 @@ function bereken() {
     let heeftUpsell = olie || rem || voertuigcheck; 
     let alleenTraOfApk = geenOnderhoud || ((tra || apk || diagnose || transmissie || eindeGarantie) && !heeftOnderhoud);
 
+    let mobiliteitRadio = document.querySelector('input[name="mobiliteit"]:checked');
+    let mobiliteit = mobiliteitRadio ? mobiliteitRadio.value : null;
+
     let doen = []; let traBlok = []; let transmissieBlok = []; let nietDoen = new Set();
     
     if (tra) { traBlok.push("TRA in menu W (garantie) zetten", "Documentatie in MOBO toevoegen", "Receptie taggen t.b.v. de actie"); }
-    if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimerregel toevoegen"); }
+    if (diagnose) { doen.push("Diagnose regel(s) in menu Z plaatsen", "Disclaimer regel toevoegen *00 DIS"); }
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
     if (eindeGarantie) { doen.push("Einde garantie in menu W zetten"); }
     if (remmen) { 
@@ -460,7 +504,7 @@ function bereken() {
     }
 
     if (mobiliteit === 'vervoer') {
-        doen.push("Controleer of regel vervangend vervoer op WO staat, anders toevoegen");
+        doen.push("Vervangend vervoer reserveren");
     } else if (mobiliteit === 'wachter') {
         doen.push("Wachttijd eindtijd");
     }
@@ -470,8 +514,16 @@ function bereken() {
     }
     
     if (klant === 'particulier') {
-        if (upsellStatus === 'aanbieden' && heeftUpsell && !alleenTraOfApk) doen.push("Upsell aanbieden");
-        else if (upsellStatus === 'besproken' && heeftUpsell) nietDoen.add("Upsell aanbieden");
+        if (upsellStatus === 'aanbieden' && heeftUpsell && !alleenTraOfApk) {
+            let upsellHtml = "<div><div>Upsell aanbieden</div>";
+            if (rem) upsellHtml += "<div class=\"sub-item\">Remvloeistof = Airco Service</div>";
+            if (olie || voertuigcheck) upsellHtml += "<div class=\"sub-item\">Microfilter = Airco reinigen</div>";
+            if (olie && voertuig !== 'ev') upsellHtml += "<div class=\"sub-item\">Motorolie = Brandstoftoevoeging Benzine/Diesel</div>";
+            upsellHtml += "</div>";
+            doen.push(upsellHtml);
+        } else if (upsellStatus === 'besproken' && heeftUpsell) {
+            nietDoen.add("Upsell aanbieden");
+        }
     }
 
     if (olie && voertuig !== 'ev') {
@@ -489,18 +541,24 @@ function bereken() {
     }
 
     if (!bsi) { 
-        if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan motorolie"); 
-        if (rem) doen.push("H114 toevoegen aan remvloeistof"); 
+        if (olie && voertuig !== 'ev') doen.push("H111 toevoegen aan hetzelfde menu als motorolie"); 
+        if (rem) doen.push("H114 toevoegen aan hetzelfde menu als remvloeistof"); 
     } else {
         if (olie && voertuig !== 'ev') nietDoen.add("H111 toevoegen aan motorolie (niet i.c.m. BSI)"); 
         if (rem) nietDoen.add("H114 toevoegen aan remvloeistof (niet i.c.m. BSI)"); 
         doen.push("In menu B zetten i.v.m. BSI-contract"); 
     }
 
-    if (voertuig === 'brandstof' && olie) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
-    if (voertuig === 'ev' && voertuigcheck) doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
+    if (voertuig === 'brandstof' && olie) {
+        doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
+        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW met een F-model");
+    }
+    if (voertuig === 'ev' && voertuigcheck) {
+        doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
+        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW met een F-model");
+    }
     
-    if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren");
+    if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren, pas aan in APK menu en selecteer de juiste arbeidscode");
 
     let menuItems = doen.filter(item => item.includes("menu Z") || item.includes("menu B") || item.includes("menu W"));
     let overigeItems = doen.filter(item => !(item.includes("menu Z") || item.includes("menu B") || item.includes("menu W")));
@@ -508,9 +566,9 @@ function bereken() {
 
     let resHtml = "";
 
-    // Pilot Oostzaan trigger
-    if (vestiging === 'Oostzaan') {
-        resHtml += `<div class="block red"><b>⚠️ PILOT OOSTZAAN:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
+    // Pilot vervangend vervoer trigger
+    if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn') {
+        resHtml += `<div class="block red"><b>⚠️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
     }
 
     if (doen.length) { resHtml += `<div class="block green"><b>✔ Wel doen:</b>`; doen.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
@@ -535,7 +593,6 @@ function bereken() {
     } else {
         finalBody = BERICHTEN.standaard;
     }
-
     document.getElementById('klantbericht').value = BERICHTEN.aanhef + finalBody + BERICHTEN.afsluiting(vestiging);
 }
 

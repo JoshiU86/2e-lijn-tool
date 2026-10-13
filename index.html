@@ -270,7 +270,7 @@
             <label class="option"><input type="radio" name="klant" value="lease"> Lease</label>
             <label class="option"><input type="radio" name="klant" value="particulier"> Particulier</label>
         </div>
-        <div style="font-size: 10.5px; font-weight: bold; margin-top: 4px; letter-spacing: 0.2px;">LET OP: <span style="color: var(--danger);">controleer klantgegevens</span></div>
+        <div style="font-size: 12.5px; font-weight: bold; color: var(--danger); margin-top: 6px; letter-spacing: 0.2px;">LET OP: CONTROLEER KLANTGEGEVENS EN DEBITEUR!</div>
 
         <div id="upsellWrapper" class="hidden">
             <span class="sub-label">UPSELL STATUS</span>
@@ -568,7 +568,7 @@ function bereken() {
 
     // Pilot vervangend vervoer trigger
     if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn') {
-        resHtml += `<div class="block red"><b>⚠️️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
+        resHtml += `<div class="block red"><b>⚠️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
     }
 
     if (doen.length) { resHtml += `<div class="block green"><b>✔ Wel doen:</b>`; doen.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }

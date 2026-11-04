@@ -187,6 +187,27 @@
     .sub-item { margin: 3px 0 2px 10px; color: var(--dusseldorp-grey); font-size: 11.5px; }
     .sub-item::before { content: "• "; color: var(--dusseldorp-blue); font-weight: bold; }
 
+    .missing-indicator {
+        font-size: 10.5px;
+        color: var(--dusseldorp-grey);
+        margin-top: 8px;
+        padding: 6px 10px;
+        border-radius: 5px;
+        background: var(--bg-light);
+        border: 1px solid var(--border-color);
+        font-weight: 600;
+    }
+    .missing-indicator.active {
+        color: #b45309;
+        background: #fffbeb;
+        border-color: #fcd34d;
+    }
+    body.dark-mode .missing-indicator.active {
+        background: #2d2500;
+        border-color: #78500a;
+        color: #fcd34d;
+    }
+
     #klantbericht { 
         flex-grow: 1; 
         width: 100%; 
@@ -201,10 +222,12 @@
         color: var(--text-main); 
         outline: none;
         margin-bottom: 10px;
+        box-sizing: border-box;
     }
 
-    .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 2px; padding: 10px; border:none; border-radius:5px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; font-size:12px; }
-    .btn-copy:hover { background: #1656b0; }
+    .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 2px; padding: 10px; border:none; border-radius:5px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; font-size:12px; transition: background 0.2s, opacity 0.2s; }
+    .btn-copy:hover:not(:disabled) { background: #1656b0; }
+    .btn-copy:disabled { opacity: 0.4; cursor: not-allowed; }
     
     .btn-snel-wissel { 
         background: #fff5f5; 
@@ -241,8 +264,16 @@
 
     .checklist-wrapper { margin-top: auto; padding-top: 10px; }
     .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 0; margin: 0; list-style: none; }
-    .checklist li { font-size: 11px; color: var(--dusseldorp-grey); position: relative; padding-left: 12px; line-height: 1.2; }
+    .checklist li { 
+        font-size: 11px; 
+        color: var(--dusseldorp-grey); 
+        position: relative; 
+        padding-left: 12px; 
+        line-height: 1.2;
+        transition: opacity 0.2s;
+    }
     .checklist li::before { content: "•"; position: absolute; left: 0; color: var(--dusseldorp-blue); font-weight: bold; }
+    .checklist li.dim { opacity: 0.3; }
 </style>
 </head>
 <body>
@@ -317,6 +348,8 @@
             <label class="option full"><input type="radio" name="mobiliteit" value="wachter"> Wachter</label>
         </div>
 
+        <div id="missingIndicator" class="missing-indicator">Selecteer klanttype en voertuigtype om te beginnen</div>
+
         <button onclick="resetForm()" class="btn-reset">Sessie resetten</button>
     </div>
 
@@ -331,24 +364,24 @@
         <button onclick="laadWielwisselBericht()" class="btn-snel-wissel">🛞 Snelbericht Wiel set wissel laden</button>
 
         <textarea id="klantbericht" readonly placeholder="Selecteer eerst de factoren links..."></textarea>
-        <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn">Kopieer bericht</button>
+        <button onclick="kopieerBericht()" class="btn-copy" id="copyBtn" disabled>Kopieer bericht</button>
         <div id="copyStatus"></div>
 
         <div class="checklist-wrapper">
             <span class="section-title" style="border: none; padding: 0;">Laatste controle</span>
-            <ul class="checklist">
-                <li>Klantgegevens controleren</li>
-                <li>AWP en werkorder compleet</li>
-                <li>Planning correct</li>
-                <li>BSI/Lease correct verwerkt</li>
-                <li>MOBO gesynchroniseerd</li>
-                <li>Juiste menu’s gebruikt (B / W / Z)</li>
-                <li>Memo’s gecontroleerd</li>
-                <li>Dossier zichtbaar</li>
-                <li>Batterij toegevoegd indien nodig</li>
-                <li>Klantbericht verstuurd</li>
-                <li>APK / Diagnose / Acties correct verwerkt</li>
-                <li>Werkvoorbereiding afgevinkt</li>
+            <ul class="checklist" id="checklist">
+                <li data-key="klant">Klantgegevens controleren</li>
+                <li data-key="awp">AWP en werkorder compleet</li>
+                <li data-key="planning">Planning correct</li>
+                <li data-key="bsi">BSI/Lease correct verwerkt</li>
+                <li data-key="mobo">MOBO gesynchroniseerd</li>
+                <li data-key="menu">Juiste menu’s gebruikt (B / W / Z)</li>
+                <li data-key="memo">Memo’s gecontroleerd</li>
+                <li data-key="dossier">Dossier zichtbaar</li>
+                <li data-key="batterij">Batterij toegevoegd indien nodig</li>
+                <li data-key="bericht">Klantbericht verstuurd</li>
+                <li data-key="apk">APK / Diagnose / Acties correct verwerkt</li>
+                <li data-key="werkvoorbereiding">Werkvoorbereiding afgevinkt</li>
             </ul>
         </div>
     </div>
@@ -427,14 +460,19 @@ function laadWielwisselBericht() {
     let vestiging = document.getElementById('vestiging').value;
     document.getElementById('klantbericht').value = BERICHTEN.wielwissel(vestiging);
     document.getElementById('resultaat').innerHTML = `<div class="block green"><b>🛞 Snelbericht geladen:</b><div class="list-item">Wiel set wissel klantbericht klaargezet.</div></div>`;
+    document.getElementById('copyBtn').disabled = false;
 }
 
-function kopieerBericht() {
+async function kopieerBericht() {
     const tekst = document.getElementById('klantbericht');
     const rightCol = document.getElementById('rightCol');
     if(!tekst.value) return;
-    tekst.select();
-    document.execCommand('copy');
+    try {
+        await navigator.clipboard.writeText(tekst.value);
+    } catch {
+        tekst.select();
+        document.execCommand('copy');
+    }
     
     document.getElementById('copyStatus').textContent = "✔ GEKOPIEERD NAAR KLEMBORD";
     rightCol.classList.add('copied-flash');
@@ -444,7 +482,39 @@ function kopieerBericht() {
     }, 1200);
 }
 
+function updateChecklist(context) {
+    const { bsi, klant, apk, diagnose, tra, olie, rem, voertuig } = context;
+    document.querySelectorAll('#checklist li').forEach(li => {
+        const key = li.dataset.key;
+        let dim = false;
+        if (key === 'bsi' && !bsi && klant !== 'lease') dim = true;
+        if (key === 'apk' && !apk && !diagnose && !tra) dim = true;
+        if (key === 'batterij' && !olie && voertuig !== 'ev') dim = true;
+        li.classList.toggle('dim', dim);
+    });
+}
+
+function updateMissingIndicator() {
+    const indicator = document.getElementById('missingIndicator');
+    const klantRadio = document.querySelector('input[name="klant"]:checked');
+    const voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
+    const geenOnderhoud = document.getElementById('geenOnderhoud').checked;
+    const upsellRadio = document.querySelector('input[name="upsellStatus"]:checked');
+    const missing = [];
+    if (!klantRadio) missing.push('klanttype');
+    if (!voertuigRadio) missing.push('voertuigtype');
+    if (klantRadio && klantRadio.value === 'particulier' && !geenOnderhoud && !upsellRadio) missing.push('upsell status');
+    if (missing.length) {
+        indicator.textContent = `Nog selecteren: ${missing.join(', ')}`;
+        indicator.classList.add('active');
+    } else {
+        indicator.textContent = '✓ Alle verplichte velden ingevuld';
+        indicator.classList.remove('active');
+    }
+}
+
 function bereken() {
+    updateMissingIndicator();
     let klantRadio = document.querySelector('input[name="klant"]:checked');
     let voertuigRadio = document.querySelector('input[name="voertuig"]:checked');
     let vestiging = document.getElementById('vestiging').value;
@@ -461,8 +531,18 @@ function bereken() {
 
     let upsellRadio = document.querySelector('input[name="upsellStatus"]:checked');
 
-    if (!klantRadio || !voertuigRadio) return;
-    if (klantRadio.value === 'particulier' && !geenOnderhoud && !upsellRadio) return;
+    if (!klantRadio || !voertuigRadio) {
+        document.getElementById('resultaat').innerHTML = `<div class="block" style="border-left: 4px solid var(--dusseldorp-grey);"><b>Wacht op invoer</b>Selecteer links het klanttype en voertuigtype om het advies te genereren.</div>`;
+        document.getElementById('klantbericht').value = "";
+        document.getElementById('copyBtn').disabled = true;
+        return;
+    }
+    if (klantRadio.value === 'particulier' && !geenOnderhoud && !upsellRadio) {
+        document.getElementById('resultaat').innerHTML = `<div class="block" style="border-left: 4px solid var(--dusseldorp-grey);"><b>Wacht op invoer</b>Selecteer de upsell status om verder te gaan.</div>`;
+        document.getElementById('klantbericht').value = "";
+        document.getElementById('copyBtn').disabled = true;
+        return;
+    }
 
     let klant = klantRadio.value;
     let voertuig = voertuigRadio.value;
@@ -500,7 +580,6 @@ function bereken() {
     if (transmissie) { transmissieBlok.push("DKG opboeken via AWP of via *00 SP0", "Indien niet aanwezig 'standaard omvang' toevoegen"); }
     if (eindeGarantie) { doen.push("Einde garantie in menu W zetten"); }
     
-    // H111 bij remmen vervalt zodra Motorolie ook is aangevinkt (voorkomt dubbele H111 op werkorder)
     if (remmen && !olie) { 
         doen.push("H111 toevoegen in menu remmen"); 
     }
@@ -570,7 +649,6 @@ function bereken() {
 
     let resHtml = "";
 
-    // Pilot vervangend vervoer trigger
     if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn') {
         resHtml += `<div class="block red"><b>⚠️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
     }
@@ -598,14 +676,23 @@ function bereken() {
         finalBody = BERICHTEN.standaard;
     }
     document.getElementById('klantbericht').value = BERICHTEN.aanhef + finalBody + BERICHTEN.afsluiting(vestiging);
+    document.getElementById('copyBtn').disabled = false;
+    updateChecklist({ bsi, klant, apk, diagnose, tra, olie, rem, voertuig, heeftOnderhoud });
 }
 
 function resetForm() { 
     document.querySelectorAll('input').forEach(el => { el.checked = false; el.disabled = false; delete el.dataset.manual; }); 
-    document.getElementById('resultaat').innerHTML = ""; 
+    document.getElementById('resultaat').innerHTML = `<div class="block" style="border-left: 4px solid var(--dusseldorp-grey);"><b>Wacht op invoer</b>Selecteer links het klanttype en voertuigtype om het advies te genereren.</div>`; 
     document.getElementById('klantbericht').value = "";
+    document.getElementById('copyBtn').disabled = true;
     document.getElementById('upsellWrapper').classList.add('hidden');
+    document.getElementById('copyStatus').textContent = "";
+    document.querySelectorAll('#checklist li').forEach(li => li.classList.remove('dim'));
+    ['olieOptie','transmissieOptie'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+    updateMissingIndicator();
 }
+
+updateMissingIndicator();
 </script>
 </body>
 </html>

@@ -553,14 +553,16 @@ function bereken() {
 
     if (voertuig === 'brandstof' && olie) {
         doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan olie");
-        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW met een F-model");
+        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW F-model (code 2450)");
     }
     if (voertuig === 'ev' && voertuigcheck) {
         doen.push(klant === 'lease' ? "Sleutelbatterij in apart menu" : "Sleutelbatterij koppelen aan voertuigcheck");
-        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW met een F-model");
+        doen.push("Sleutelbatterij = Altijd 2032 behalve bij BMW F-model (code 2450)");
     }
     
-    if (apk && voertuigcheck) doen.push("APK kosteloos uitvoeren, pas aan in APK menu en selecteer de juiste arbeidscode");
+    if (apk && voertuigcheck && klant === 'particulier') {
+        doen.push("APK kosteloos uitvoeren, pas aan in APK menu en selecteer de juiste arbeidscode");
+    }
 
     let menuItems = doen.filter(item => item.includes("menu Z") || item.includes("menu B") || item.includes("menu W"));
     let overigeItems = doen.filter(item => !(item.includes("menu Z") || item.includes("menu B") || item.includes("menu W")));

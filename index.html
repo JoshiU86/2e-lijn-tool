@@ -225,6 +225,11 @@
         box-sizing: border-box;
     }
 
+    #klantbericht::selection {
+        background: #1c69d4;
+        color: #ffffff;
+    }
+
     .btn-copy { background: var(--dusseldorp-blue); color: var(--white); margin-top: 2px; padding: 10px; border:none; border-radius:5px; cursor:pointer; font-weight:700; width:100%; text-transform:uppercase; font-size:12px; transition: background 0.2s, opacity 0.2s; }
     .btn-copy:hover:not(:disabled) { background: #1656b0; }
     .btn-copy:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -467,10 +472,11 @@ async function kopieerBericht() {
     const tekst = document.getElementById('klantbericht');
     const rightCol = document.getElementById('rightCol');
     if(!tekst.value) return;
+    tekst.focus();
+    tekst.select();
     try {
         await navigator.clipboard.writeText(tekst.value);
     } catch {
-        tekst.select();
         document.execCommand('copy');
     }
     
@@ -649,7 +655,7 @@ function bereken() {
 
     let resHtml = "";
 
-    if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn') {
+    if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn' || vestiging === 'Zwolle') {
         resHtml += `<div class="block red"><b>⚠️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
     }
 

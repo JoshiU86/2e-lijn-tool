@@ -655,8 +655,8 @@ function bereken() {
 
     let resHtml = "";
 
-    if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn' || vestiging === 'Zwolle') {
-        resHtml += `<div class="block red"><b>⚠️ PILOT VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo + Rentwise regel opboeken.</div></div>`;
+    if (vestiging === 'Oostzaan' || vestiging === 'Apeldoorn' || vestiging === 'Zwolle' || vestiging === 'Hoorn') {
+        resHtml += `<div class="block red"><b>⚠️ VERVANGEND VERVOER:</b><div class="list-item" style="font-weight: bold; color: var(--danger);">LET OP, Vervangend vervoer boeken in Mobo.</div></div>`;
     }
 
     if (doen.length) { resHtml += `<div class="block green"><b>✔ Wel doen:</b>`; doen.forEach(r => resHtml += `<div class="list-item">${r}</div>`); resHtml += `</div>`; }
